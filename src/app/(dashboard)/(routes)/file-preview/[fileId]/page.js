@@ -27,7 +27,7 @@ export default function FilePreview({ params }) {
     useEffect(() => {
         console.log(params.fileId);
         params.fileId && getFileInfo();
-    }, []);
+    }, [getFileInfo, params.fileId]);
 
     const getFileInfo = async () => {
         const docRef = doc(db, "uploadedFiles", params?.fileId);
