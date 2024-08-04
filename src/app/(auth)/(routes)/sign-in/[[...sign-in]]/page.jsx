@@ -1,5 +1,6 @@
 import { SignIn } from '@clerk/nextjs'
 import Constants from '../../../../_utils/Constants'
+import Image from 'next/Image'
 
 export default function SignInPage() {
     return (
