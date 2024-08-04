@@ -43,27 +43,30 @@ export default function Upload() {
         );
     };
 
-    const saveInfo = async (file, fileUrl) => {
-        const docId = generateRandomString().toString();
-        setFileDocId(docId);
-        try {
-            await setDoc(doc(db, "uploadedFiles", docId), {
-                fileName: file.name,
-                fileSize: file.size,
-                fileType: file.type,
-                fileUrl: fileUrl,
-                userEmail: user.primaryEmailAddress.emailAddress,
-                userName: user.fullName,
-                password: '',
-                id: docId,
-                shortUrl: process.env.NEXT_PUBLIC_BASE_URL + docId
-            });
-            console.log("File information successfully saved");
-            setUploadCompleted(true);
-        } catch (error) {
-            console.error("Error saving file information: ", error);
-        }
-    };
+const saveInfo = async (file, fileUrl) => {
+    const docId = generateRandomString().toString();
+    setFileDocId(docId);
+    const baseUrl = window.location.origin; // Get the base URL from the browser
+
+    try {
+        await setDoc(doc(db, "uploadedFiles", docId), {
+            fileName: file.name,
+            fileSize: file.size,
+            fileType: file.type,
+            fileUrl: fileUrl,
+            userEmail: user.primaryEmailAddress.emailAddress,
+            userName: user.fullName,
+            password: '',
+            id: docId,
+            shortUrl: `${baseUrl}/${docId}` // Concatenate base URL with docId
+        });
+        console.log("File information successfully saved");
+        setUploadCompleted(true);
+    } catch (error) {
+        console.error("Error saving file information: ", error);
+    }
+};
+
 
     useEffect(() => {
         if (uploadCompleted && fileDocId) {
